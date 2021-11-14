@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Toxicity Checker</title>
+ <link rel="stylesheet" href="HackathonCSS.css">
+ <link rel="icon" type="image/x-icon" href="Favicon.jfif">
+ <style>
+ img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+ }
+</style>
+</style>
+</head>
+<body>
+ <div class="Beginning">
+  <h1><u>ToxBlocker</u><br>Toxicity Detector for Social Media</h1>
+  <h2>Author: Nicole Schneider</h2>
+  <p>This project uses Machine Learning and webscrapping to scrape a 
+provided url and then rates its toxicity level.
+  </p>
+  <hr>
+ </div>
+ <div>
+  <img src="ToxicityBarStockPhoto.jpg" 
+       alt="ToxicityBarStockPhoto" 
+       style="width:50%;"
+       class="center">
+ </div>
+
+ <hr>
+ <div id="Input">
+  <h1>Input</h1>
+  <label for="URL_INPUT">URL Input:</label><br>
+  <input type="text" id="URL_INPUT" style="width: 75%"name="URL_INPUT"><br>
+  <button type="button" for="URL_INPUT" onclick="myInputFunction()">Pull Comments</button>
+  <p id="OutputInputDemo">Submit a url/link to check its toxicity!</p>
+
+  <script>
+   function myInputFunction(inputedValue) {
+     inputedValue=document.getElementById("URL_INPUT").value
+     document.getElementById("OutputInputDemo").innerHTML = "Chosen URL is: "+inputedValue;
+     SomeData = "\n ->This is death to read on mobile., \n ->Sorry about that. I'm not sure how I could make it better,\n ->And the post has been deleted, an hour after I took these screenshots., \n ->https://i.imgur.com/tkWFRZF.gif,\n ->Members, \n ->Online"
+     document.getElementById("OutputInputDemo").innerHTML = "The Comments from the chosen URL:\n"+SomeData;
+     
+     const listData=["This is death to read on mobile.", "Sorry about that. I'm not sure how I could make it better", 'And the post has been deleted, an hour after I took these screenshots.', 'https://i.imgur.com/tkWFRZF.gif', 'Members', 'Online']
+     let text="";
+	for (let i = 0; i < listData.length; i++) {
+	  text += "<br>->" +listData[i];
+	}
+     document.getElementById("OutputInputDemo").innerHTML = "The Comments from the chosen URL:\n"+text;
+   }
+  </script>
+
+ </div>
+
+
+
+<hr>
+
+   <script>
+    function ChangeToxicity(input) {
+      if(input>=0 && input<11) {
+       document.getElementById("ToxicityDescription").innerHTML = "The level of Toxicity is "+input+"/10";
+       document.getElementById("ToxMeter").value = ""+input;
+      }
+      else {SwitchVisibility(ToxInputHINT)}
+     }
+
+    function SwitchVisibility(divElement) {
+      var x = document.getElementById(divElement.style);
+      if (x.display === 'none') {
+        x.display = 'block';} 
+      else {x.display = 'none';}
+}
+	$.post( "/postmethod", {
+      canvas_data: JSON.stringify("outputData")
+    }, function(err, req, resp){
+      window.location.href = "/results/"+resp["responseJSON"]["uuid"];  
+    });
+	
+	function callOutsideScriptCode() {
+	  fetch('C:\Users\nicol\OneDrive\Desktop\Hackathons\app.py')
+      .then(function (response) {
+          return response.json();
+      }).then(function (text) {
+          console.log('GET response:');
+          console.log(text.greeting); 
+      });
+	}
+   </script>
+
+ <div id="ToxicityRating">
+   <h1>Toxicity Rating</h1>
+  <label for="text_INPUT">Toxicity Level : (1-10) <br> 0-3 is Low Toxicity 
+   <br> 3-6 is Medium Toxicity
+   <br> 6-10 is High Toxicity</label><br>
+  <input style="display:none" type="text" id="text_INPUT" name="text_INPUT">
+  <p id="ToxInputHINT" style="display:none">This is not a valid input</p><br>
+  <button type="button" for="text_INPUT" onclick="ChangeToxicity(2)">Calculate Toxicity</button>
+  <br>
+  <label for="ToxMeter">Toxicity:</label>
+  <meter id="ToxMeter" value="10" low="3" high="6" optimum="0" min="0" max="10"></meter><br>
+  <p id="ToxicityDescription">The level of Toxicity is ?/10</p>
+
+
+
+
+  </div>
+
+ <hr>
+</body>
+</html>
